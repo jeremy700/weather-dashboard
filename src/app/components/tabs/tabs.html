@@ -1,5 +1,5 @@
 <!-- Tabs header -->
-<ul class="nav nav-tabs" role="tablist">
+<ul class="nav nav-tabs" [class.border-0]="tabs().length === 0" role="tablist">
   @for (tab of tabs(); track tab) {
     <li class="nav-item" role="presentation">
         <button type="button" class="nav-link d-flex align-items-center" [class.active]="tab.active()"

@@ -9,8 +9,8 @@ import { Component, input, signal, TemplateRef, viewChild } from '@angular/core'
 })
 export class Tab {
 
-  title = input.required<string>();
+  title = input<string | null>(null);
   content = viewChild<TemplateRef<any>>(TemplateRef);
   active = signal(false);
-
+  id = input<string | null>(null);
 }

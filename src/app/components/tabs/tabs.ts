@@ -1,4 +1,4 @@
-import { Component, computed, contentChildren, effect, signal } from '@angular/core';
+import { Component, computed, contentChildren, effect, output, signal } from '@angular/core';
 import { Tab } from '../tab/tab';
 import { CommonModule } from '@angular/common';
 
@@ -13,8 +13,10 @@ import { CommonModule } from '@angular/common';
 export class Tabs {
   private projectedTabs = contentChildren(Tab);
   private tabsSignal = signal<Tab[]>([]);
-
   tabs = computed(() => this.tabsSignal());
+  closed = output<string | null>();
+  hasActiveTab = computed(() => this.tabsSignal().some(tab => tab.active()));
+
 
   constructor() {
     effect(() => {
@@ -33,6 +35,7 @@ export class Tabs {
 
   closeTab(tab: Tab): void {
     console.log('Cerrando tab:', tab.title());
+    this.closed.emit(tab.id());
     const tabs = this.tabsSignal();
     const index = tabs.indexOf(tab);
     const wasActive = tab.active();

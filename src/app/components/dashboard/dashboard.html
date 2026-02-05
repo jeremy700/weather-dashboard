@@ -1,22 +1,55 @@
-<h2>Tabs test</h2>
-<!-- Probando componente de pestañas -->
-<app-tabs>
-    <app-tab title="Tab A">
-    <p>Contenido A</p>
-    </app-tab>
 
-    <app-tab title="Tab B">
-    <p>Contenido B</p>
-    </app-tab>
+<div class="mb-4" style="max-width: 400px;">
+  <label for="locationInput" class="form-label">Agregar Código postal</label>
 
-    <app-tab title="Tab C">
-    <p>Contenido C</p>
-    </app-tab>
-</app-tabs>
-<!-- dashboard decorativo, se mostrará siempre y cuando no se haya hecho click sonbre alguna pestaña -->
-@if (true) {
-<div >
-    dashboard decorativo
+  <div class="d-flex gap-2">
+    <input id="locationInput" type="text" class="form-control form-control-sm" placeholder="Ingrese un código postal"
+      [(ngModel)]="zipCode" aria-describedby="locationHelp" aria-required="true"/>
+
+    <button class="btn btn-sm btn-primary" [disabled]="!zipCode" (click)="addCity()">Agregar</button>
+  </div>
 </div>
+
+<app-tabs (closed)="removeLocation($event)">
+  @for (location of locationService.locations(); track location.zipCode) {
+    <app-tab [title]="location.city_name + ' (' + location.zipCode + ')' " [id]="location.zipCode">
+      <p>
+        {{ location.city_name }}, {{ location.state_code }} ({{ location.country_code }})
+      </p>
+      <!-- aquí el forecast -->
+    </app-tab>
+  }
+</app-tabs>
+
+<!-- Dashboard decorativo -->
+@if (!tabsHasActive()) {
+  <section class="p-4 border rounded text-center bg-light" aria-labelledby="dashboardTitle">
+    <h2 id="dashboardTitle" class="mb-3">
+      Bienvenido al Weather Dashboard
+    </h2>
+
+    <p class="text-muted mb-4">
+      Agregue un código postal para comenzar a visualizar el clima actual y el
+      pronóstico de los próximos días.
+    </p>
+
+    <ul class="list-unstyled text-start mx-auto" style="max-width: 280px;">
+      <li class="d-flex align-items-center mb-2">
+        <i class="bi bi-cloud-sun me-2" aria-hidden="true"></i>
+        <span>Clima actual</span>
+      </li>
+
+      <li class="d-flex align-items-center mb-2">
+        <i class="bi bi-calendar3 me-2" aria-hidden="true"></i>
+        <span>Pronóstico a 5 días</span>
+      </li>
+
+      <li class="d-flex align-items-center">
+        <i class="bi bi-geo-alt me-2" aria-hidden="true"></i>
+        <span>Múltiples ubicaciones</span>
+      </li>
+    </ul>
+  </section>
 }
+
 
