@@ -6,8 +6,7 @@
         (click)="selectTab(tab)" role="tab" [attr.aria-selected]="tab.active()">
 
             {{ tab.title() }}
-            <button type="button" class="btn-close ms-2" aria-label="Cerrar pestaña" (click)="closeTab(tab); 
-            $event.stopPropagation()"></button>
+            <button type="button" class="btn-close ms-2" aria-label="Cerrar pestaña" (click)="closeTab(tab); $event.stopPropagation()"></button>
         </button>
     </li>
   }

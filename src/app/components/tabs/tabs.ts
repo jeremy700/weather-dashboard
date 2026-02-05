@@ -16,6 +16,8 @@ export class Tabs {
   tabs = computed(() => this.tabsSignal());
   closed = output<string | null>();
   hasActiveTab = computed(() => this.tabsSignal().some(tab => tab.active()));
+  selected = output<Tab>();
+  closeRequested = output<Tab>();
 
 
   constructor() {
@@ -28,14 +30,19 @@ export class Tabs {
   }
 
   selectTab(tab: Tab): void {
-    this.tabsSignal().forEach(t => t.active.set(false));
-    tab.active.set(true);
-    console.log('Tab seleccionada:', tab.title());
+    console.log('Seleccionando tab:', tab.title());
+    // this.tabsSignal().forEach(t => t.active.set(false));
+    // tab.active.set(true);
+    // console.log('Tab seleccionada:', tab.title());
+    this.selected.emit(tab);
   }
 
   closeTab(tab: Tab): void {
+    this.closeRequested.emit(tab);
+  }
+
+  confirmCloseTab(tab: Tab): void {
     console.log('Cerrando tab:', tab.title());
-    this.closed.emit(tab.id());
     const tabs = this.tabsSignal();
     const index = tabs.indexOf(tab);
     const wasActive = tab.active();
@@ -46,5 +53,11 @@ export class Tabs {
     if (wasActive && updated.length) {
       this.selectTab(updated[Math.max(index - 1, 0)]);
     }
+    this.closed.emit(tab.id());
+  }
+
+  activateTab(tab: Tab): void {
+    this.tabsSignal().forEach(t => t.active.set(false));
+    tab.active.set(true);
   }
 }

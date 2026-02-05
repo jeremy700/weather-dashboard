@@ -1,1 +1,29 @@
-<p>modal works!</p>
+@if (open()) {
+  <div class="modal-backdrop fade show"></div>
+
+  <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" [attr.aria-labelledby]="'modalTitle'" [attr.aria-describedby]="'modalDesc'">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" #dialog tabindex="0">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">{{ title() }}</h5>
+          <button type="button" class="btn-close" aria-label="Cerrar modal" (click)="onCancel()"></button>
+        </div>
+
+        <div class="modal-body" id="modalDesc">
+          <p>{{ message() }}</p>
+        </div>
+
+        <div class="modal-footer">
+          @if (type() === 'confirm') {
+            <button class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+            <button class="btn btn-primary" (click)="onConfirm()">Confirmar</button>
+          }
+
+          @if (type() !== 'confirm') {
+            <button class="btn btn-primary" (click)="onCancel()">Aceptar</button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

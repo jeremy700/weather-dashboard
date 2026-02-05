@@ -10,6 +10,7 @@ export class Location {
 
   private _locations = signal<CityModel[]>([]);
   locations = this._locations.asReadonly();
+  error = signal<string | null>(null);
 
   private readonly baseUrl = 'https://api.weatherbit.io/v2.0/current';
   private readonly apiKey = '6dd9a48e0e3443db8a2adc0add1d96b8';
@@ -17,7 +18,7 @@ export class Location {
   constructor(private http: HttpClient) { }
 
   addLocation(zipCode: string): void {
-
+    this.error.set(null);
     if (this._locations().some(l => l.zipCode === zipCode)) {
       return;
     }
@@ -38,6 +39,7 @@ export class Location {
       },
       error: () => {
         console.error('Error loading weather for', zipCode);
+        this.error.set(`El código postal ${zipCode} no existe.`);
       }
     });
   }

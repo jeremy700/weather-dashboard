@@ -6,11 +6,13 @@
     <input id="locationInput" type="text" class="form-control form-control-sm" placeholder="Ingrese un código postal"
       [(ngModel)]="zipCode" aria-describedby="locationHelp" aria-required="true"/>
 
-    <button class="btn btn-sm btn-primary" [disabled]="!zipCode" (click)="addCity()">Agregar</button>
+    <button class="btn btn-sm btn-primary" [disabled]="!zipCode" (click)="openAddModal()">Agregar</button>
   </div>
 </div>
 
-<app-tabs (closed)="removeLocation($event)">
+<app-modal [open]="showModal()" [title]="'Atención!'" [message]="modalMessage()" [type]="modalType()" (confirm)="confirmModal()" (cancel)="closeModal()"></app-modal>
+
+<app-tabs (closed)="removeLocation($event)" (closeRequested)="onTabCloseRequested($event)" (selected)="onTabSelected($event)">
   @for (location of locationService.locations(); track location.zipCode) {
     <app-tab [title]="location.city_name + ' (' + location.zipCode + ')' " [id]="location.zipCode">
       <p>
@@ -46,7 +48,7 @@
 
       <li class="d-flex align-items-center">
         <i class="bi bi-geo-alt me-2" aria-hidden="true"></i>
-        <span>Múltiples ubicaciones</span>
+        <span>Elige tus ubicaciones</span>
       </li>
     </ul>
   </section>
