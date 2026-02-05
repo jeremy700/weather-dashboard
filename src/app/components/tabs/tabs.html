@@ -1,0 +1,24 @@
+<!-- Tabs header -->
+<ul class="nav nav-tabs" role="tablist">
+  @for (tab of tabs(); track tab) {
+    <li class="nav-item" role="presentation">
+        <button type="button" class="nav-link d-flex align-items-center" [class.active]="tab.active()"
+        (click)="selectTab(tab)" role="tab" [attr.aria-selected]="tab.active()">
+
+            {{ tab.title() }}
+            <button type="button" class="btn-close ms-2" aria-label="Cerrar pestaña" (click)="closeTab(tab); 
+            $event.stopPropagation()"></button>
+        </button>
+    </li>
+  }
+</ul>
+
+<!-- Tabs content -->
+<div class="tab-content border border-top-0 p-3">
+  @for (tab of tabs(); track tab) {
+    @if (tab.active()) {
+      <ng-container *ngTemplateOutlet="tab.content()"></ng-container>
+    }
+  }
+</div>
+
