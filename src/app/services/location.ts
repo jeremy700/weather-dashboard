@@ -12,6 +12,7 @@ export class Location {
   locations = this._locations.asReadonly();
   error = signal<string | null>(null);
 
+  private readonly forecastUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
   private readonly baseUrl = 'https://api.weatherbit.io/v2.0/current';
   private readonly apiKey = '6dd9a48e0e3443db8a2adc0add1d96b8';
 
@@ -49,6 +50,16 @@ export class Location {
     this._locations.update(locations => locations.filter(l => l.zipCode !== id));
     console.log('Location eliminada. Locations actuales:');
     this._locations().forEach(l => console.log(l.zipCode));
+  }
+
+  getForecast(zipCode: string) {
+    const params = new HttpParams()
+      .set('postal_code', zipCode)
+      .set('country', 'US')
+      .set('days', '5')
+      .set('key', this.apiKey);
+
+    return this.http.get<{ data: any[] }>(this.forecastUrl, { params });
   }
   
 }

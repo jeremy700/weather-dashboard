@@ -4,13 +4,14 @@ import { Tabs } from '../tabs/tabs';
 import { Location as locationService } from '../../services/location';
 import { FormsModule } from '@angular/forms';
 import { Modal } from '../modal/modal';
+import { Forecast } from '../forecast/forecast';
 
 type ModalAction= 'add' | 'select-tab' | 'close-tab' |null;
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [Modal, FormsModule, Tabs, Tab],
+  imports: [Modal, FormsModule, Tabs, Tab, Forecast],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })

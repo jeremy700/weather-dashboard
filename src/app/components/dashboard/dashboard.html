@@ -15,10 +15,7 @@
 <app-tabs (closed)="removeLocation($event)" (closeRequested)="onTabCloseRequested($event)" (selected)="onTabSelected($event)">
   @for (location of locationService.locations(); track location.zipCode) {
     <app-tab [title]="location.city_name + ' (' + location.zipCode + ')' " [id]="location.zipCode">
-      <p>
-        {{ location.city_name }}, {{ location.state_code }} ({{ location.country_code }})
-      </p>
-      <!-- aquí el forecast -->
+      <app-forecast [location]="location"></app-forecast>
     </app-tab>
   }
 </app-tabs>
