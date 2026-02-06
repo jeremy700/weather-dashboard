@@ -9,6 +9,16 @@
     <button class="btn btn-sm btn-primary" [disabled]="!zipCode" (click)="openAddModal()">Agregar</button>
   </div>
 </div>
+<div class="mb-3" style="max-width: 400px;">
+  <label for="ttlHorasCacheSelect" class="form-label">Duración del caché</label>
+
+  <select id="ttlHorasCacheSelect" class="form-select form-select-sm" [value]="cacheTtlHours()" (change)="updateTiempoCache($event)">
+    <option value="1">1 hora</option>
+    <option value="2">2 horas</option>
+    <option value="4">4 horas</option>
+    <option value="8">8 horas</option>
+  </select>
+</div>
 
 <app-modal [open]="showModal()" [title]="'Atención!'" [message]="modalMessage()" [type]="modalType()" (confirm)="confirmModal()" (cancel)="closeModal()"></app-modal>
 

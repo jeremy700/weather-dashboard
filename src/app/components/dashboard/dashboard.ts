@@ -5,6 +5,7 @@ import { Location as locationService } from '../../services/location';
 import { FormsModule } from '@angular/forms';
 import { Modal } from '../modal/modal';
 import { Forecast } from '../forecast/forecast';
+import { Cache } from '../../services/cache';
 
 type ModalAction= 'add' | 'select-tab' | 'close-tab' |null;
 
@@ -31,15 +32,19 @@ export class Dashboard {
   pendingCloseTab = signal<Tab | null>(null);
 
   modalAction = signal<ModalAction>(null);
+  cacheTtlHours = signal<number>(2);
 
-  constructor() {
+  constructor(private cache: Cache) {
+    const ttlMs = this.cache.getTiempoCache();
+    this.cacheTtlHours.set(ttlMs / (1000 * 60 * 60));
+
     effect(() => {
       const error = this.locationService.error();
 
       if (error) {
         this.modalType.set('error');
         this.modalMessage.set(error);
-        this.modalAction.set(null); // no hay confirmación
+        this.modalAction.set(null);
         this.showModal.set(true);
       }
     });
@@ -124,6 +129,14 @@ export class Dashboard {
     if (!tab) return;
     this.tabsComponent()?.activateTab(tab);
     this.closeModal();
+  }
+
+  updateTiempoCache(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const hours = Number(selectElement.value);
+    const ttlMs = hours * 60 * 60 * 1000;
+    this.cache.setTiempoCache(ttlMs);
+    this.cacheTtlHours.set(hours);
   }
 
 }
