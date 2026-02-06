@@ -18,3 +18,28 @@
   background-color: #fff;
   border: none !important;
 }
+
+.tabs-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.tabs-scroll-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tabs-scroll-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+@media (max-width: 576px) {
+  .tab-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.1;
+    max-width: 200px;
+    font-size: small;
+  }
+}

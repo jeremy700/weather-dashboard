@@ -1,23 +1,24 @@
 
-<div class="mb-4" style="max-width: 400px;">
-  <label for="locationInput" class="form-label">Agregar Código postal</label>
-
-  <div class="d-flex gap-2">
-    <input id="locationInput" type="text" class="form-control form-control-sm" placeholder="Ingrese un código postal"
-      [(ngModel)]="zipCode" aria-describedby="locationHelp" aria-required="true"/>
-
-    <button class="btn btn-sm btn-primary" [disabled]="!zipCode" (click)="openAddModal()">Agregar</button>
+<div class="row g-3 mb-4" style="max-width: 500px;">
+  
+  <div class="col-12 col-md-4">
+    <label for="locationInput" class="form-label">Código postal</label>
+    <input id="locationInput" type="text" class="form-control form-control-sm" placeholder="Ingrese un código postal" [(ngModel)]="zipCode" aria-required="true"/>
   </div>
-</div>
-<div class="mb-3" style="max-width: 400px;">
-  <label for="ttlHorasCacheSelect" class="form-label">Duración del caché</label>
-
-  <select id="ttlHorasCacheSelect" class="form-select form-select-sm" [value]="cacheTtlHours()" (change)="updateTiempoCache($event)">
-    <option value="1">1 hora</option>
-    <option value="2">2 horas</option>
-    <option value="4">4 horas</option>
-    <option value="8">8 horas</option>
-  </select>
+  
+  <div class="col-12 col-md-2 d-flex align-items-end">
+    <button class="btn btn-sm btn-primary w-100" [disabled]="!zipCode" (click)="openAddModal()">Agregar</button>
+  </div>
+  
+  <div class="col-12 col-md-6">
+    <label for="ttlHorasCacheSelect" class="form-label">Duración del caché</label>
+    <select id="ttlHorasCacheSelect" class="form-select form-select-sm" [value]="cacheTtlHours()" (change)="updateTiempoCache($event)">
+      <option value="1">1 hora</option>
+      <option value="2">2 horas</option>
+      <option value="4">4 horas</option>
+      <option value="8">8 horas</option>
+    </select>
+  </div>
 </div>
 
 <app-modal [open]="showModal()" [title]="'Atención!'" [message]="modalMessage()" [type]="modalType()" (confirm)="confirmModal()" (cancel)="closeModal()"></app-modal>

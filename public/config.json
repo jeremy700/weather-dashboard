@@ -1,0 +1,12 @@
+{
+  "weather": {
+    "apiKey": "6dd9a48e0e3443db8a2adc0add1d96b8",
+    "currentUrl": "https://api.weatherbit.io/v2.0/current",
+    "forecastUrl": "https://api.weatherbit.io/v2.0/forecast/daily",
+    "country": "US",
+    "forecastDays": 5
+  },
+    "cache": {
+        "defaultTtlHours": 2
+    }
+}

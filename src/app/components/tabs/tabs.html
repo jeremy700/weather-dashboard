@@ -1,17 +1,18 @@
 <!-- Tabs header -->
-<ul class="nav nav-tabs" [class.border-0]="tabs().length === 0" role="tablist">
-  @for (tab of tabs(); track tab) {
-    <li class="nav-item" role="presentation">
-        <button type="button" class="nav-link d-flex align-items-center" [class.active]="tab.active()"
-        (click)="selectTab(tab)" role="tab" [attr.aria-selected]="tab.active()">
+<div class="tabs-scroll-wrapper">
+  <ul class="nav nav-tabs flex-nowrap" [class.border-0]="tabs().length === 0" role="tablist">
+    @for (tab of tabs(); track tab) {
+      <li class="nav-item" role="presentation">
+          <button type="button" class="nav-link d-flex align-items-center" [class.active]="tab.active()"
+          (click)="selectTab(tab)" role="tab" [attr.aria-selected]="tab.active()">
 
-            {{ tab.title() }}
-            <button type="button" class="btn-close ms-2" aria-label="Cerrar pestaña" (click)="closeTab(tab); $event.stopPropagation()"></button>
-        </button>
-    </li>
-  }
-</ul>
-
+              <span class="tab-title">{{ tab.title() }}</span>
+              <button type="button" class="btn-close ms-2" aria-label="Cerrar pestaña" (click)="closeTab(tab); $event.stopPropagation()"></button>
+          </button>
+      </li>
+    }
+  </ul>
+</div>
 <!-- Tabs content -->
 <div class="tab-content border border-top-0 p-3">
   @for (tab of tabs(); track tab) {

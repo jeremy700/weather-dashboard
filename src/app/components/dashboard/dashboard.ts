@@ -19,25 +19,30 @@ type ModalAction= 'add' | 'select-tab' | 'close-tab' |null;
 export class Dashboard {
 
   locationService = inject(locationService);
+  //Signal para el código postal ingresado por el usuario
   zipCode: string | null = null;
+  //Referencia al componente Tabs para interactuar con él
   tabsComponent = viewChild(Tabs);
+  //Computed que indica si hay alguna pestaña activa, se usa para habilitar/deshabilitar la vista del pronóstico y el dasboard decoratico
   tabsHasActive = computed(() =>this.tabsComponent()?.hasActiveTab() ?? false);
-
+  //Signal y variables para controlar el modal de confirmación y mensajes
   showModal = signal(false);
   modalType = signal<'confirm' | 'success' | 'error'>('confirm');
   modalMessage = signal('');
-  
+  //Variables para almacenar datos pendientes de acción en el modal, por ejemplo, el código postal a agregar o la pestaña a seleccionar/cerrar, se guarda hasta que el usuario confirme la acción
   pendingZip: string | null = null;
+  // Pestaña pendiente de selección, mismo caso anterior, donde hay que esperar la confirmación del usuario
   pendingTab = signal<Tab | null>(null);
+  // Pestaña pendiente de cierre
   pendingCloseTab = signal<Tab | null>(null);
-
+  // Acción pendiente en el modal, se usa para identificar si la accion es agregar, seleccionar o cerrar una pestaña
   modalAction = signal<ModalAction>(null);
   cacheTtlHours = signal<number>(2);
 
   constructor(private cache: Cache) {
     const ttlMs = this.cache.getTiempoCache();
     this.cacheTtlHours.set(ttlMs / (1000 * 60 * 60));
-
+    // Efecto para mostrar el modal de error cuando hay un error en el servicio de ubicación
     effect(() => {
       const error = this.locationService.error();
 
@@ -56,7 +61,6 @@ export class Dashboard {
   }  
 
   removeLocation(id:string|null) {
-    console.log('Eliminando location con id:', id);
     this.locationService.deleteLocation(id?.toLowerCase() || null);
   }
 
@@ -116,7 +120,6 @@ export class Dashboard {
   }
 
   onTabSelected(tab: Tab) {
-    console.log('Solicitud para abrir tab:', tab.title());
     this.pendingTab.set(tab);
     this.modalMessage.set(`Desea abrir la pestaña "${tab.title()}"?`);
     this.modalType.set('confirm');
