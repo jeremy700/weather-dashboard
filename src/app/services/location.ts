@@ -33,7 +33,7 @@ export class Location {
   }
 
   getJsonConfig() {
-    return this.http.get('/config.json');
+    return this.http.get('config.json');
   }
 
   addLocation(zipCode: string): void {
